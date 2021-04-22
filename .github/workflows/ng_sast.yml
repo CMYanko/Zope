@@ -15,15 +15,15 @@ jobs:
     - name: Download ShiftLeft CLI
       run: |
         curl https://cdn.shiftleft.io/download/sl > ${GITHUB_WORKSPACE}/sl && chmod a+rx ${GITHUB_WORKSPACE}/sl
+
     - name: Extract branch name
-      shell: bash
-      run: pip install requirements-full.txt
-    - name: pip install
       shell: bash
       run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
       id: extract_branch
     - name: NextGen Static Analysis
-      run: ${GITHUB_WORKSPACE}/sl analyze --wait --app zope --tag branch=${{ github.head_ref || steps.extract_branch.outputs.branch }} --python --beta $(pwd)
+      run: |
+        pip install -r requirements-full.txt
+        ${GITHUB_WORKSPACE}/sl analyze --wait --app zope --tag branch=${{ github.head_ref || steps.extract_branch.outputs.branch }} --python --beta $(pwd)
       env:
         SHIFTLEFT_ACCESS_TOKEN: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}
         
