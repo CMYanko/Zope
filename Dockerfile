@@ -14,7 +14,7 @@ RUN curl https://cdn.shiftleft.io/download/sl > sl && chmod a+rx sl
 RUN python3 -m venv .venv \
     && . .venv/bin/activate \
     && pip install --upgrade setuptools wheel \
-    && pip install -r requirements.txt
+    && pip install -r requirements-full.txt
 
 # Perform sl analysis
 RUN ./sl analyze --app flask-webgoat-docker --tag branch=$BRANCH --python --cpg --beta .
